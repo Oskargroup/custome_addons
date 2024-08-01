@@ -1,0 +1,79 @@
+
+
+<odoo>
+  <data>
+    <record id="view_task_form_ext" model="ir.ui.view">
+            <field name="name">project.task.form.ext</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"></field>
+            <field name="arch" type="xml">
+                <field name="user_ids" position="after">
+                  <field name="task_member_ids" class="o_task_user_field" widget="many2many_tags" invisible="1"/>
+                </field>
+                <field name="user_ids" position="attributes">
+                    <attribute name="domain">[('id', 'in', task_member_ids)]</attribute>
+                </field>
+                <field name="tag_ids" position="before">
+                    <field name="project_tag_required" invisible="1"/>
+                </field>
+                <field name="tag_ids" position="attributes">
+                    <attribute name="required">project_tag_required</attribute>
+                </field>
+                <notebook position="before">
+                    <group name="planning_date" string="Planning">
+                        <group>
+                            <field name="plan_start"/>
+                            <field name="plan_end"/>
+                        </group>
+                        <group>
+                            <field name="actual_start"/>
+                            <field name="actual_end"/>
+                        </group>
+                    </group>
+                </notebook>
+                <xpath expr="//field[@name='child_ids']/tree/field[@name='partner_id']" position="after">
+                    <field name="plan_start" optional="hide"/>
+                    <field name="plan_end" optional="hide"/>
+                    <field name="actual_start" optional="hide"/>
+                    <field name="actual_end" optional="hide"/>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Task History">
+                        <field name="log_stage_ids" readonly="1">
+                            <tree>
+                                <field name="stage_id"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="attributes">
+                    <attribute name="widget">date</attribute>
+                    <attribute name="options">{"format": "dd/MM/yyyy"}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='date_deadline']" position="before">
+                    <field name="parent_id" invisible="not parent_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- <record id="inherit_view_task_kanban" model="ir.ui.view">
+            <field name="name">inherit.project.task.kanban</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban" />
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="group_create">1</attribute>
+                    <attribute name="group_delete">1</attribute>
+                    <attribute name="group_edit">1</attribute>
+                    <attribute name="archivable">1</attribute>
+                    <attribute name="quick_create">1</attribute>
+                </xpath> -->
+                <!-- <xpath expr="//kanban/templates/t/div/div" position="before">
+                    <field name="your_field_goes_here"/>
+                </xpath> -->
+            <!-- </field>
+        </record> -->
+  </data>
+</odoo>

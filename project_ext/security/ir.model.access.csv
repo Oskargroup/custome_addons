@@ -1,0 +1,18 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_project_owner,project.project,project.model_project_project,group_project_owner,1,1,1,1
+access_project_project_stage_owner,project.project_stage.owner,project.model_project_project_stage,group_project_owner,1,1,1,1
+access_project_task_type_owner,project.task.type owner,project.model_project_task_type,group_project_owner,1,1,1,1
+access_report_project_task_user,report.project.task.user,project.model_report_project_task_user,group_project_owner,1,1,1,1
+access_project_tags_owner,project.project_tags_owner,project.model_project_tags,group_project_owner,1,1,1,1
+access_mail_activity_type_project_owner,mail.activity.type.project.owner,mail.model_mail_activity_type,group_project_owner,1,1,1,1
+access_account_analytic_account_owner,account.analytic.account,analytic.model_account_analytic_account,group_project_owner,1,1,1,1
+access_account_analytic_line_project,account.analytic.line project,analytic.model_account_analytic_line,group_project_owner,1,1,1,1
+access_project_task_type_delete_wizard,project.task.type.delete.wizard,project.model_project_task_type_delete_wizard,group_project_owner,1,1,1,1
+project.access_project_task_burndown_chart_report,access_project_task_burndown_chart_report,project.model_project_task_burndown_chart_report,group_project_owner,1,1,1,1
+access_project_update_project_owner,project.update.project.owner,project.model_project_update,group_project_owner,1,1,1,1
+access_project_milestone_project_owner,project.milestone.project.owner,project.model_project_milestone,group_project_owner,1,1,1,1
+access_project_collaborator_owner,project.collaborator.owner,project.model_project_collaborator,group_project_owner,1,1,1,1
+access_project_share_owner,project.share.wizard.owner,project.model_project_share_wizard,group_project_owner,1,1,1,0
+
+access_project_task_log_stage_owner,project.task.log.stage.owner,model_project_task_log_stage,group_project_owner,1,0,0,0
+access_project_task_log_stage_user,project.task.log.stage.user,model_project_task_log_stage,project.group_project_user,1,0,0,0

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_project_owner" model="res.groups">
+        <field name="name">Owner</field>
+        <field name="category_id" ref="base.module_category_services_project"/>
+        <field name="implied_ids" eval="[(4, ref('project.group_project_user'))]"/>
+    </record>
+
+<data>
+
+    <record forcecreate="True" model="ir.rule" id="project_project_admin_new_read_rule">
+        <field name="name">Project: project admin: see all task</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="groups" eval="[(4,ref('project.group_project_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record forcecreate="True" model="ir.rule" id="project_project_owner_read_rule">
+        <field name="name">Project: project owner: see all project that blongs to </field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="domain_force">['|','|',
+            ('user_id', '=', user.id),
+            ('project_deputy_ids', 'in', [user.id]),
+            ('task_member_ids', 'in', [user.id])]</field>
+        <field name="groups" eval="[(4,ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record forcecreate="True" model="ir.rule" id="project_project_owner_edit_rule">
+        <field name="name">Project: project owner: create and update all project that blongs to </field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="domain_force">['|',
+            ('user_id', '=', user.id),
+            ('project_deputy_ids', 'in', [user.id])
+            ]</field>
+        <field name="groups" eval="[(4,ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record model="ir.rule" id="project_owner_all_project_tasks_rule">
+        <field name="name">Project/Task: project owner: see all tasks linked to a project or its own tasks</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4,ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record model="ir.rule" id="report_project_task_owner_rule">
+        <field name="name">Tasks Analysis: each project owner can see her/his Analysis</field>
+        <field name="model_id" ref="project.model_report_project_task_user"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4,ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="update_visibility_project_owner" model="ir.rule">
+        <field name="name">Project updates : Project owner can see related project updates</field>
+        <field name="model_id" ref="project.model_project_update"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4,ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record model="ir.rule" id="burndown_chart_project_owner_rule">
+        <field name="name">Burndown chart: project visibility for product owner</field>
+        <field name="model_id" ref="project.model_project_task_burndown_chart_report"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4,ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="milestone_visibility_project_owner" model="ir.rule">
+        <field name="name">Project/Milestone: Project owner can see related project milestones</field>
+        <field name="model_id" ref="project.model_project_milestone"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4, ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record model="ir.rule" id="task_type_project_owner_rule">
+        <field name="name">Project/Task Type: owners can see all related task types</field>
+        <field name="model_id" ref="project.model_project_task_type"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- <record model="ir.rule" id="project_stage_project_owner_rule">
+        <field name="name">Project/Task Type: owners only can see project stages</field>
+        <field name="model_id" ref="project.model_project_project_stage"/>
+        <field name="domain_force">[('id', '=', -1)]</field>
+        <field name="groups" eval="[(4,ref('group_project_owner'))]"/>
+        <field name="perm_read" eval="False"/>
+    </record> -->
+
+    <record id="ir_rule_sms_template_project_owner" model="ir.rule">
+        <field name="name">SMS Template: project owner CUD on project/task</field>
+        <field name="model_id" ref="sms.model_sms_template"/>
+        <field name="groups" eval="[(4, ref('group_project_owner'))]"/>
+        <field name="domain_force">[('model_id.model', 'in', ('project.task.type', 'project.project.stage'))]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+
+    <!-- tits_scrum_agil -->
+    
+    <!-- <record id="project_test_case_project_owner" model="ir.rule">
+        <field name="name">Project Test Case: all members of project can see their test cases</field>
+        <field name="model_id" ref="tits_scrum_agil.model_project_scrum_test"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4, ref('group_project_owner'))]"/>
+    </record>
+
+    
+    <record id="project_meeting_project_owner" model="ir.rule">
+        <field name="name">Project Meeting: all members of project can see related meetings</field>
+        <field name="model_id" ref="tits_scrum_agil.model_project_scrum_meeting"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4, ref('group_project_owner'))]"/>
+    </record>
+
+
+    
+    <record id="project_sprint_project_owner" model="ir.rule">
+        <field name="name">Project Meeting: all members of project can see related sprints</field>
+        <field name="model_id" ref="tits_scrum_agil.model_project_scrum_sprint"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4, ref('group_project_owner'))]"/>
+    </record>
+
+    
+    
+    <record id="project_user_story_project_owner" model="ir.rule">
+        <field name="name">Project Meeting: all members of project can see related user stories</field>
+        <field name="model_id" ref="tits_scrum_agil.model_project_scrum_us"/>
+        <field name="domain_force">[
+            '|', '|', ('project_id.user_id', '=', user.id),
+            ('project_id.project_deputy_ids', 'in', [user.id]),
+                 ('project_id.task_member_ids', 'in', [user.id])
+        ]</field>
+        <field name="groups" eval="[(4, ref('group_project_owner'))]"/>
+    </record> -->
+</data>
+</odoo>
+
+

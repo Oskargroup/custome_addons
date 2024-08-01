@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_ext_side_content" inherit_id="portal.side_content">
+        <xpath expr="//a" position="attributes">
+            <attribute name="t-attf-style">display:none;</attribute>
+        </xpath>
+    </template>
+    
+</odoo>
