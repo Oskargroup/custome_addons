@@ -1,0 +1,4 @@
+[submodule "custome_addons"]
+	path = custome_addons
+	url = git@github.com:Oskargroup/custome_addons.git
+	branch = main
